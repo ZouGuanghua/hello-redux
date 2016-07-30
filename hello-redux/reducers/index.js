@@ -13,11 +13,13 @@ export const cnt = (state = 0, action) => {
   return state
 }
 
-
 export const listData = (state = [], action) => {
   console.log('listData', action, ActionTypes.FETCH_LIST_SUCCESS , action.type)
   if(action.type == ActionTypes.FETCH_LIST_SUCCESS){
-    return action.res.data
+    const data = action.res.data
+    const r = {}
+    data.map(({id, categoryId, code, name, categoryName})=>({id, categoryId, code, name, categoryName})).map(v=>r[v.id]=v)
+    return r
   }
   return state
 }

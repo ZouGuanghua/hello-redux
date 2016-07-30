@@ -1,49 +1,29 @@
-import React from 'react'
-import {connect} from 'react-redux'
-import { propTypes, t } from 'tcomb-react';
+import React, { Component, PropTypes } from 'react'
+import { Provider } from 'react-redux'
+import { Route, Router } from 'react-router'
+import App from './App'
+import Info from './Info'
 
-import { fetchList } from '../actions'
+const routes =  (
+  <Route path="/" component={App}>
+    <Route path="/greens/:id" component={Info} />
+  </Route>
+)
 
-class Root extends React.Component {
-
-  componentDidMount() {
-		this.props.fetchList()
-  }
-
+export default class Root extends Component {
   render() {
-    const { listData } = this.props
+    const { store, history } = this.props
     return (
-      <table>
-				<tbody>
-					{listData.map((post, i)=>
-						<tr key={i}>
-						<td>{post.id}</td>
-						<td>{post.categoryId}</td>
-						<td>{post.code}</td>
-						<td>{post.name}</td>
-						<td>{post.unit}</td>
-						</tr>
-					)}
-				</tbody>
-      </table>
+      <Provider store={store}>
+        <div>
+          <Router history={history} routes={routes} />
+        </div>
+      </Provider>
     )
   }
 }
 
-Root.propTypes = propTypes({
-	fetchList:t.Func,
-	history:t.Any,
-	store:t.Any,
-	listData:t.list(t.struct({
-		id:t.Number,
-	  categoryId:t.Number,
-	  code:t.String,
-	  name:t.String,
-	}))
-})
-
-export default connect((state, ownProps) => {
-  return {
-		listData:state.globals.listData
-  }
-}, {fetchList})(Root)
+Root.propTypes = {
+  store: PropTypes.object.isRequired,
+  history: PropTypes.object.isRequired
+}
