@@ -54,4 +54,3 @@ test('test react', t=>{
 	const text = app.find('.a').text()
 	t.true(text==='aa')
 })
-

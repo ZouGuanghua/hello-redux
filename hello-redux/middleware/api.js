@@ -8,7 +8,8 @@ const send = async(url, method = 'GET', body = null) => {
     method: method,
     headers: {
       'Accept': 'application/json',
-      'Content-Type': 'application/json'
+      'Content-Type': 'application/json',
+      'Authorization': "eyJ0eXAiOiJKV1QiLCJhbGciOiJSUzI1NiJ9.eyJpZCI6NDIsIm5hbWUiOiJhZG1pbiIsImVtYWlsIjoiYWRtaW5AdGV5aWRlLmNuIiwiZW50ZXJwcmlzZUlkIjoxNCwidHRsIjoxNDcwMjk4Nzc3ODM5LCJpYXQiOjE0Njk2OTM5Nzd9.qF0KeJwx1N_SQ-dUJ8TJTqIPZH8sBYQ8Mucd7Y8Rfxg_hNCpN8QjWDtAE4XxixiXx-WYgIt0z5k6r_v9ht_qhw-LT4VgjAsC6BP37AB81TPymD0XQYnfjlIQpNEQpWAI4okP6wEYpNxNwR7kOwoi3iScjjatzFn2F6ICHwLvr7E",
     },
     body: body ? JSON.stringify(body) : null
   })

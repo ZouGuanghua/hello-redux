@@ -13,8 +13,17 @@ export const cnt = (state = 0, action) => {
   return state
 }
 
+
+export const listData = (state = [], action) => {
+  console.log('listData', action, ActionTypes.FETCH_LIST_SUCCESS , action.type)
+  if(action.type == ActionTypes.FETCH_LIST_SUCCESS){
+    return action.res.data
+  }
+  return state
+}
+
 const globals = combineReducers({
-	cnt,
+	listData,
 })
 
 const rootReducer = combineReducers({

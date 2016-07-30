@@ -2,45 +2,48 @@ import React from 'react'
 import {connect} from 'react-redux'
 import { propTypes, t } from 'tcomb-react';
 
-import Jade from './Root.jade'
-import {add } from '../actions'
+import { fetchList } from '../actions'
 
-export const If = (props)=>{
-	if(props.if){
-		return React.Children.only(props.children)
-	}
-	return null
+class Root extends React.Component {
+
+  componentDidMount() {
+		this.props.fetchList()
+  }
+
+  render() {
+    const { listData } = this.props
+    return (
+      <table>
+				<tbody>
+					{listData.map((post, i)=>
+						<tr key={i}>
+						<td>{post.id}</td>
+						<td>{post.categoryId}</td>
+						<td>{post.code}</td>
+						<td>{post.name}</td>
+						<td>{post.unit}</td>
+						</tr>
+					)}
+				</tbody>
+      </table>
+    )
+  }
 }
-
-export const IfElse = (props)=>{
-	console.assert(props.children.length === 2)
-	if(props.if){
-		return props.children[0]
-	}
-	return props.children[1]
-}
-
-
-export const Root = (props)=>{
-	const add2 = ()=>{
-		props.add()
-	}
-	const list = [10,20,30]
-	const show = props.cnt%2?true:false
-	const click = (index)=>console.log('click', index)
-	return Jade(Object.assign({}, props, {add2, list, If, show, IfElse, click}))
-} 
 
 Root.propTypes = propTypes({
-	cnt:t.Number,
-	add:t.Func,
-	store:t.Any,
+	fetchList:t.Func,
 	history:t.Any,
+	store:t.Any,
+	listData:t.list(t.struct({
+		id:t.Number,
+	  categoryId:t.Number,
+	  code:t.String,
+	  name:t.String,
+	}))
 })
 
 export default connect((state, ownProps) => {
   return {
-    cnt: state.globals.cnt,
+		listData:state.globals.listData
   }
-}, {add})(Root)
-
+}, {fetchList})(Root)
